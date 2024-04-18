@@ -12,8 +12,7 @@ namespace ReactorNuclear.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MonitoreoXDispo>()
-                .HasKey();
+         
         }
         
         public DbSet<MonitoreoXDispo> monitoreoXDispos {  get; set; }

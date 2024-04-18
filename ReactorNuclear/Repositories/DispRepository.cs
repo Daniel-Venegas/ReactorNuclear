@@ -7,12 +7,11 @@ namespace ReactorNuclear.Repositores
 {
     public interface IDispRepository
     {
-        Task<List<Dispositivo>> GetAll();
+        Task<List<Dispositivo>> GetAllDisp();
         Task<Dispositivo> GetDispo(int IdDispositivo);
         Task<Dispositivo> CreateDispo(string Dispo);
-        Task<Dispositivo> UpdateDispo(int IdDispositivo, string Dispo);
-        Task<Dispositivo> DeleteDispo(int IdDispositivo);
-        Task<Dispositivo> UpdateDispo(Dispositivo? newDispositivo);
+        Task<Dispositivo> UpdateDispo(Dispositivo dispositivo);
+        Task<Dispositivo> DeleteDispo(Dispositivo dispositivo);
         //Task<MonitoreoXDispo> UpdateMonitoreo(MonitoreoXDispo? newMonitoreoXDispo);
     }
     public class DispRepository : IDispRepository
@@ -20,17 +19,17 @@ namespace ReactorNuclear.Repositores
 
         private readonly REDbContext _db;
 
-        public DispRepository (REDbContext db) 
-        {  
-            _db = db; 
+        public DispRepository(REDbContext db)
+        {
+            _db = db;
         }
 
-        public async Task<List<Dispositivo>> GetAll()
+        public async Task<List<Dispositivo>> GetAllDisp()
         {
             return await _db.Dispositivo.ToListAsync();
         }
 
-        public async Task<Dispositivo> GetDispo (int IdDispositivo)
+        public async Task<Dispositivo> GetDispo(int IdDispositivo)
         {
             return await _db.Dispositivo.FirstOrDefaultAsync(d => d.IdDispositivo == IdDispositivo);
         }
@@ -47,40 +46,25 @@ namespace ReactorNuclear.Repositores
             return newDispositivo;
         }
 
-        public async Task<Dispositivo> UpdateDispo(int IdDispositivo, string Dispo)
+        public async Task<Dispositivo> UpdateDispo(Dispositivo dispositivo)
         {
-            /*var dispoToUpdate = await _db.Dispositivo.FindAsync(IdDispositivo);
-            if (dispoToUpdate != null)
+            Dispositivo ConsultUpdate = await _db.Dispositivo.FirstOrDefaultAsync(d => d.IdDispositivo == dispositivo.IdDispositivo);
+            if (ConsultUpdate != null)
             {
-
-                dispoToUpdate.IdDispositivo = IdDispositivo;
-                dispoToUpdate.Dispo = Dispo;
-
-
+                ConsultUpdate.Dispo = dispositivo.Dispo;
                 await _db.SaveChangesAsync();
             }
-
-            return dispoToUpdate;*/
-            throw new NotImplementedException();
+            return ConsultUpdate;
         }
 
-        public async Task<Dispositivo> DeleteDispo(int idDispositivo)
+
+
+        public async Task<Dispositivo> DeleteDispo(Dispositivo dispositivo)
         {
-            var dispoToDelete = await _db.Dispositivo.FindAsync(idDispositivo);
-
-            if(dispoToDelete != null)
-            {
-                _db.Dispositivo.Remove(dispoToDelete);
-                await _db.SaveChangesAsync();
-            }
-            return dispoToDelete;
+            await _db.Dispositivo.AddAsync(dispositivo);
+            _db.SaveChanges();
+            return dispositivo;
         }
-
-        public async Task<Dispositivo> UpdateDispo(Dispositivo? newDispositivo)
-        {
-            throw new NotImplementedException();
-        }
-
 
     }
 }

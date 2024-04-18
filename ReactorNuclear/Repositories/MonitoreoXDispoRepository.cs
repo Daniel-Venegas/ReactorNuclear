@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using ReactorNuclear.Context;
 using ReactorNuclear.Model;
 
@@ -7,13 +8,12 @@ namespace ReactorNuclear.Repositores
 
     public interface IMonitoreoXDispoRepository
     {
-        Task<List<MonitoreoXDispo>> GetAll();
+        Task<List<MonitoreoXDispo>> GetAllMonitoreos();
         Task<MonitoreoXDispo> GetMonitoreo(int IdVariableMonitoreo);
         Task<MonitoreoXDispo> CreateMonitoreo(int IdVariableMonitoreo, int IdDispositivo, float Valor, DateTime Fecha);
-        Task<MonitoreoXDispo> UpdateMonitoreo(int IdVariableXDispositivo, int IdVariableMonitoreo, int IdDispositivo, float Valor, DateTime Fecha);
-        Task<MonitoreoXDispo> DeleteMonitoreo(int IdVaraibleXDispositivo);
-        Task<MonitoreoXDispo> UpdateMonitoreo(MonitoreoXDispo? newMonitoreoXDispo);
-        //Task<MonitoreoXDispo> UpdateMonitoreo(MonitoreoXDispo? newMonitoreoXDispo);
+        Task<MonitoreoXDispo> UpdateMonitoreo(MonitoreoXDispo monitoreoXDispo);
+        Task<MonitoreoXDispo> DeleteMonitoreo(MonitoreoXDispo monitoreoXDispo);
+ 
     }
     public class MonitoreoXDispoRepository : IMonitoreoXDispoRepository
     {
@@ -24,7 +24,7 @@ namespace ReactorNuclear.Repositores
             _db = db;
         }
 
-        public async Task<List<MonitoreoXDispo>> GetAll()
+        public async Task<List<MonitoreoXDispo>> GetAllMonitoreos()
         {
             return await _db.monitoreoXDispos.ToListAsync();
         }
@@ -50,45 +50,28 @@ namespace ReactorNuclear.Repositores
             return await _db.monitoreoXDispos.FirstOrDefaultAsync(m => m.IdVariableXDispositivo == IdVariableMonitoreo);
         }
 
-        public async Task<MonitoreoXDispo> UpdateMonitoreo(int IdVariableXDispositivo, int IdVariableMonitoreo, int IdDispositivo, float Valor, DateTime Fecha)
+        public async Task<MonitoreoXDispo> UpdateMonitoreo(MonitoreoXDispo monitoreoXDispo)
         {
-
-            /*var monitoreoToUpdate = await _db.monitoreoXDispos.FindAsync(IdVariableXDispositivo);
-
-            if (monitoreoToUpdate != null)
+            MonitoreoXDispo ConsultUpdate = await _db.monitoreoXDispos.FirstOrDefaultAsync(d => d.IdVariableXDispositivo == monitoreoXDispo.IdVariableXDispositivo);
+            if(ConsultUpdate != null)
             {
-                
-                monitoreoToUpdate.IdVariableMonitoreo = IdVariableMonitoreo;
-                monitoreoToUpdate.IdDispositivo = IdDispositivo;
-                monitoreoToUpdate.Valor = Valor;
-                monitoreoToUpdate.Fecha = Fecha;
-
-                
+                ConsultUpdate.IdVariableMonitoreo = monitoreoXDispo.IdVariableMonitoreo;
+                ConsultUpdate.IdDispositivo = monitoreoXDispo.IdDispositivo;
+                ConsultUpdate.Valor = monitoreoXDispo.Valor;
+                ConsultUpdate.Fecha = monitoreoXDispo.Fecha;
                 await _db.SaveChangesAsync();
             }
-
-            return monitoreoToUpdate;*/
-            throw new NotImplementedException();
+            return ConsultUpdate;
         }
 
 
-        public async Task<MonitoreoXDispo> DeleteMonitoreo(int IdVaraibleXDispositivo)
+        public async Task<MonitoreoXDispo> DeleteMonitoreo(MonitoreoXDispo monitoreoXDispo)
         {
-
-            var monitoreoToDelete = await _db.monitoreoXDispos.FindAsync(IdVaraibleXDispositivo);
-
-            if (monitoreoToDelete != null)
-            {
-                _db.monitoreoXDispos.Remove(monitoreoToDelete);
-                await _db.SaveChangesAsync();
-            }
-
-            return monitoreoToDelete;
+            await _db.monitoreoXDispos.AddAsync(monitoreoXDispo);
+            _db.SaveChanges();
+            return monitoreoXDispo;
         }
 
-        public async Task<MonitoreoXDispo> UpdateMonitoreo(MonitoreoXDispo? newMonitoreoXDispo)
-        {
-            throw new NotImplementedException();
-        }
+ 
     }
 }

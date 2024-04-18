@@ -6,12 +6,12 @@ namespace ReactorNuclear.Repositores
 {
     public interface IVarMoRepository
     {
-        Task<List<VariableMonitoreo>> GetAll();
+        Task<List<VariableMonitoreo>> GetAllVarMo();
         Task<VariableMonitoreo> GetVar(int IdVariableMonitoreo);
         Task<VariableMonitoreo> CreateVarMo(string VarMonitoreo, int IdTipoVariable);
-        Task<VariableMonitoreo> UpdateVarMo(int IdVariableMonitoreo, string VarMonitoreo, int IdTipoVariable);
-        Task<VariableMonitoreo> DeleteVarMo(int IdVariableMonitoreo);
-        Task<VariableMonitoreo> UpdateVarMo(VariableMonitoreo? newVariableMonitoreo);
+        Task<VariableMonitoreo> UpdateVarMo(VariableMonitoreo variableMonitoreo);
+        Task<VariableMonitoreo> DeleteVarMo(VariableMonitoreo variableMonitoreo);
+   
     }
     public class VarMoRepository : IVarMoRepository
     {
@@ -22,7 +22,7 @@ namespace ReactorNuclear.Repositores
             _db = db; 
         }
 
-        public async Task<List<VariableMonitoreo>> GetAll()
+        public async Task<List<VariableMonitoreo>> GetAllVarMo()
         {
             return await _db.VarMo.ToListAsync();
         }
@@ -45,25 +45,25 @@ namespace ReactorNuclear.Repositores
             return newVariableMonitoreo;
         }
 
-        public async Task<VariableMonitoreo> UpdateVarMo(int IdVariableMonitoreo, string VarMonitoreo, int IdTipoVariable)
+        public async Task<VariableMonitoreo> UpdateVarMo(VariableMonitoreo variableMonitoreo)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<VariableMonitoreo> DeleteVarMo(int IdVariableMonitoreo)
-        {
-            var varMoToDelete = await _db.VarMo.FindAsync(IdVariableMonitoreo);
-            if(varMoToDelete != null)
+            VariableMonitoreo ConsultaUpdate = await _db.VarMo.FirstOrDefaultAsync(d => d.IdVariableMonitoreo == variableMonitoreo.IdVariableMonitoreo);
+           if (ConsultaUpdate != null)
             {
-                _db.VarMo.Remove(varMoToDelete);
+                ConsultaUpdate.VarMonitoreo = variableMonitoreo.VarMonitoreo;
+                ConsultaUpdate.IdTipoVariable = variableMonitoreo.IdTipoVariable;
                 await _db.SaveChangesAsync();
             }
-            return varMoToDelete;
+            return ConsultaUpdate;
         }
 
-        public Task<VariableMonitoreo> UpdateVarMo(VariableMonitoreo? newVariableMonitoreo)
+        public async Task<VariableMonitoreo> DeleteVarMo(VariableMonitoreo variableMonitoreo)
         {
-            throw new NotImplementedException();
+            await _db.VarMo.AddAsync(variableMonitoreo);
+            _db.SaveChanges();
+            return variableMonitoreo;
         }
+
+
     }
 }

@@ -6,7 +6,7 @@ namespace ReactorNuclear.Services
 
     public interface IDispService
     {
-        Task<List<Dispositivo>> GetAll();
+        Task<List<Dispositivo>> GetAllDisp();
         Task<Dispositivo> GetDispo(int IdDispositivo);
         Task<Dispositivo> CreateDispo(string Dispo);
         Task<Dispositivo> UpdateDispo(int IdDispositivo, string? Dispo = null);
@@ -26,9 +26,9 @@ namespace ReactorNuclear.Services
             return await _dispRepository.CreateDispo(Dispo);
         }
 
-        public async Task<List<Dispositivo>> GetAll()
+        public async Task<List<Dispositivo>> GetAllDisp()
         {
-            return await _dispRepository.GetAll();
+            return await _dispRepository.GetAllDisp();
         }
 
         public async Task<Dispositivo> GetDispo(int IdDispositivo)
@@ -49,7 +49,8 @@ namespace ReactorNuclear.Services
 
         public async Task<Dispositivo> DeleteDispo(int idDispositivo)
         {
-            return await _dispRepository.DeleteDispo(idDispositivo);
+            Dispositivo dispositivo = await _dispRepository.GetDispo(idDispositivo);
+            return await _dispRepository.DeleteDispo(dispositivo);
         }
     }
 }

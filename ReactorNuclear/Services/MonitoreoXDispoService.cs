@@ -7,7 +7,7 @@ namespace ReactorNuclear.Services
 
     public interface IMonitoreoXDispoService
     {
-        Task<List<MonitoreoXDispo>> GetAll();
+        Task<List<MonitoreoXDispo>> GetAllMonitoreos();
         Task<MonitoreoXDispo> GetMonitoreo(int IdVariableXDispositivo);
         Task<MonitoreoXDispo> CreateMonitoreo(int IdVariableMonitoreo, int IdDispositivo, float Valor, DateTime Fecha);
         Task<MonitoreoXDispo> UpdateMonitoreo(int IdVariableXDispositivo, int? IdVariableMonitoreo = null, int? IdDispositivo = null, float? Valor = null, DateTime? Fecha = null);
@@ -21,9 +21,9 @@ namespace ReactorNuclear.Services
             _imxRepository = imxRepository;
         }
 
-        public async Task<List<MonitoreoXDispo>> GetAll()
+        public async Task<List<MonitoreoXDispo>> GetAllMonitoreos()
         {
-            return await _imxRepository.GetAll();
+            return await _imxRepository.GetAllMonitoreos();
         }
 
         public async Task<MonitoreoXDispo> GetMonitoreo(int IdVariableXDispositivo)
@@ -64,9 +64,14 @@ namespace ReactorNuclear.Services
             }
             return await _imxRepository.UpdateMonitoreo(newMonitoreoXDispo);    
         }
+       
         public async Task<MonitoreoXDispo> DeleteMonitoreo(int IdVariableXDispositivo)
         {
-            return await _imxRepository.DeleteMonitoreo(IdVariableXDispositivo);
+            MonitoreoXDispo monitoreoXDispo = await _imxRepository.GetMonitoreo(IdVariableXDispositivo);
+            return await _imxRepository.DeleteMonitoreo(monitoreoXDispo);
         }
+
+
+
     }
 }

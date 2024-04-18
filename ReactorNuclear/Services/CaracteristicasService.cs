@@ -5,9 +5,9 @@ using ReactorNuclear.Repositores;
 namespace ReactorNuclear.Services
 {
 
-    public interface ICaracteristicasRepository
+    public interface ICaracteristicasService
     {
-        Task<List<CaracteristicasI>> GetAll();
+        Task<List<CaracteristicasI>> GetAllcaract();
         Task<CaracteristicasI> GetCaract(int IdCaracteristicas);
         Task<CaracteristicasI> CreateCaract(string CaracteristicasRequired);
         Task<CaracteristicasI> UpdateCaract(int IdCaracteristicas, string? CaracteristicasRequired = null);
@@ -26,9 +26,9 @@ namespace ReactorNuclear.Services
         {
             return await _caracteristicasRepository.CreateCaract(CaracteristicasRequired);
         }
-        public async Task<List<CaracteristicasI>> GetAll()
+        public async Task<List<CaracteristicasI>> GetAllCaract()
         {
-            return await _caracteristicasRepository.GetAll();
+            return await _caracteristicasRepository.GetAllCarcat();
         }
 
         public async Task<CaracteristicasI> GetCaract(int IdCaracteristicas)
@@ -42,9 +42,17 @@ namespace ReactorNuclear.Services
             if (newCaracteristicasI != null)
             {
                 if (CaracteristicasRequired != null)
+                {
                     newCaracteristicasI.CaracteristicasRequired = CaracteristicasRequired;
+                }
+                return await _caracteristicasRepository.UpdateCaract(newCaracteristicasI);
             }
-            return await _caracteristicasRepository.UpdateDispo(newCaracteristicasI);
+             throw new InvalidOperationException("Registro no encontrado.");
+        }
+        public async Task<CaracteristicasI> DeleteCaract (int IdCaracteristicas)
+        {
+            CaracteristicasI caracteristicasI = await _caracteristicasRepository.GetCaract(IdCaracteristicas);
+            return await _caracteristicasRepository.DeleteCaract(caracteristicasI);
         }
     }
 }

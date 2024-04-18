@@ -29,7 +29,7 @@ namespace ReactorNuclear.Controllers
             var DetalleD = await _detalleDService.GetDetalleD(IdDetalleDispositivo);
             if(DetalleD == null)
             {
-                return BadRequest("user not found");
+                return BadRequest("Registro no encontrado");
             }
             return Ok(DetalleD);
         }
@@ -37,43 +37,37 @@ namespace ReactorNuclear.Controllers
         [HttpPost]
         public async Task<ActionResult<DetalleDispositivo>> CreateDetalleD([FromBody] DetalleDispositivo detalleDispositivo)
         {
-            try
+            if (detalleDispositivo == null)
             {
-                var newDetalleD = await _detalleDService.CreateDetalleD(detalleDispositivo.IdDispositivo, detalleDispositivo.IdCaracteristicas, detalleDispositivo.Caracteristicas);
-                return Ok(newDetalleD);
+                return BadRequest("El objeto DetalleDispositivo es nulo.");
             }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error creando DetalleDispositivo: {ex.Message}");
-            }
+
+            var newDetalleD = await _detalleDService.CreateDetalleD(detalleDispositivo.IdDispositivo, detalleDispositivo.IdCaracteristicas, detalleDispositivo.Caracteristicas);
+            return Ok(newDetalleD);
         }
 
         [HttpPut("{IdDetalleDispositivo}")]
         public async Task<ActionResult<DetalleDispositivo>> UpdateDetalleD(int IdDetalleDispositivo, [FromBody] DetalleDispositivo updatedDetalleDispositivo)
         {
-            try
+            if (updatedDetalleDispositivo == null || IdDetalleDispositivo <= 0)
             {
-                var updatedDetalleD = await _detalleDService.UpdateDetalleD(IdDetalleDispositivo, updatedDetalleDispositivo.IdDispositivo, updatedDetalleDispositivo.IdCaracteristicas, updatedDetalleDispositivo.Caracteristicas);
-                return Ok(updatedDetalleD);
+                return BadRequest("Datos de entrada inválidos para actualizar DetalleDispositivo.");
             }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error actualizando DetalleDispositivo: {ex.Message}");
-            }
+
+            var updatedDetalleD = await _detalleDService.UpdateDetalleD(IdDetalleDispositivo, updatedDetalleDispositivo.IdDispositivo, updatedDetalleDispositivo.IdCaracteristicas, updatedDetalleDispositivo.Caracteristicas);
+            return Ok(updatedDetalleD);
         }
 
         [HttpDelete("{IdDetalleDispositivo}")]
         public async Task<ActionResult<DetalleDispositivo>> DeleteDetalleD(int IdDetalleDispositivo)
         {
-            try
+            if (IdDetalleDispositivo <= 0)
             {
-                var deletedDetalleD = await _detalleDService.DeleteDetalleD(IdDetalleDispositivo);
-                return Ok(deletedDetalleD);
+                return BadRequest("IdDetalleDispositivo inválido para eliminar.");
             }
-            catch (Exception ex)
-            {
-                return BadRequest($"Error al borrar DetalleDispositivo: {ex.Message}");
-            }
+
+            var deletedDetalleD = await _detalleDService.DeleteDetalleD(IdDetalleDispositivo);
+            return Ok(deletedDetalleD);
         }
 
     }

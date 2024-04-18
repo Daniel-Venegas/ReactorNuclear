@@ -6,11 +6,11 @@ namespace ReactorNuclear.Services
 
     public interface IVarMoService
     {
-        Task<List<VariableMonitoreo>> GetAll();
+        Task<List<VariableMonitoreo>> GetAllVarMo();
         Task<VariableMonitoreo> GetVar(int IdVariableMonitoreo);
         Task<VariableMonitoreo> CreateVarMo(string VarMonitoreo, int IdTipoVariable);
         Task<VariableMonitoreo> UpdateVarMo(int IdVariableMonitoreo, string? VarMonitoreo = null, int? IdTipoVariable = null);
-        Task<VariableMonitoreo> DeleteVarMo(int IdVariableMonitoreo);
+        Task<VariableMonitoreo> DeleteVariable(int IdVariableMonitoreo);
     }
     public class VarMoService : IVarMoService
     {
@@ -30,9 +30,9 @@ namespace ReactorNuclear.Services
             throw new NotImplementedException();
         }
 
-        public async Task<List<VariableMonitoreo>> GetAll()
+        public async Task<List<VariableMonitoreo>> GetAllVarMo()
         {
-            return await _varMoRepository.GetAll();
+            return await _varMoRepository.GetAllVarMo();
         }
         public async Task<VariableMonitoreo> GetVar(int IdVariableMonitoreo)
         {
@@ -51,9 +51,14 @@ namespace ReactorNuclear.Services
                 {
                     newVariableMonitoreo.IdTipoVariable = (int)IdTipoVariable;
                 }
-                   
+                return await _varMoRepository.UpdateVarMo(newVariableMonitoreo);
             }
-            return await _varMoRepository.UpdateVarMo(newVariableMonitoreo);
+            throw new InvalidOperationException("Registro no encontrado.");
+        }
+        public async Task<VariableMonitoreo> DeleteVariable(int IdVariableMonitoreo)
+        {
+            VariableMonitoreo variableMonitoreo = await _varMoRepository.GetVar(IdVariableMonitoreo);
+            return await _varMoRepository.DeleteVarMo(variableMonitoreo);
         }
     }
 }

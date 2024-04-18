@@ -8,11 +8,12 @@ namespace ReactorNuclear.Repositores
 
     public interface ICaracteristicasRepository
     {
-        Task<List<CaracteristicasI>> GetAll();
+        Task<List<CaracteristicasI>> GetAllCaract();
         Task<CaracteristicasI> GetCaract(int IdCaracteristicas);
         Task<CaracteristicasI> CreateCaract(string CaracteristicasRequired);
-        Task<CaracteristicasI> UpdateCaract(int IdCaracteristicas, string CaracteristicasRequired);
-        Task<CaracteristicasI> DeleteCaract(int IdCaracteristicas);
+        Task<CaracteristicasI> UpdateCaract(CaracteristicasI caracteristicasI);
+        Task<CaracteristicasI> DeleteCaract(CaracteristicasI caracteristicasI);
+
         
     }
     public class CaracteristicasRepository
@@ -23,7 +24,7 @@ namespace ReactorNuclear.Repositores
         {
             _db = db;
         }
-        public async Task<List<CaracteristicasI>> GetAll()
+        public async Task<List<CaracteristicasI>> GetAllCarcat()
         {
             return await _db.Caract.ToListAsync();
         }
@@ -42,37 +43,24 @@ namespace ReactorNuclear.Repositores
             _db.SaveChanges();
             return newCaracteristicasI;
         }
-        public async Task<CaracteristicasI> UpdateCaract(int IdCaracteristicas, string CaracteristicasRequired)
+        public async Task<CaracteristicasI> UpdateCaract(CaracteristicasI caracteristicasI)
         {
-            /*var caractToUpdate = await _db.Caract.FindAsync(IdCaracteristicas);
-            if (caractToUpdate != null)
+            CaracteristicasI ConsultaUpdate = await _db.Caract.FirstOrDefaultAsync(d => d.IdCaracteristicas == caracteristicasI.IdCaracteristicas);
+            if (ConsultaUpdate != null)
             {
-
-                caractToUpdate.IdCaracteristicas = IdCaracteristicas;
-                caractToUpdate.CaracteristicasRequired = CaracteristicasRequired;
-
-
+                ConsultaUpdate.CaracteristicasRequired = caracteristicasI.CaracteristicasRequired;
                 await _db.SaveChangesAsync();
             }
+            return ConsultaUpdate;
 
-            return caractToUpdate;*/
-            throw new NotImplementedException();
         }
-        public async Task<CaracteristicasI> DeleteCaract(int IdCaracteristicas)
+        public async Task<CaracteristicasI> DeleteCaract(CaracteristicasI caracteristicasI)
         {
-            var caractToDelete = await _db.Caract.FindAsync(IdCaracteristicas);
-
-            if (caractToDelete != null)
-            {
-                _db.Caract.Remove(caractToDelete);
-                await _db.SaveChangesAsync();
-            }
-            return caractToDelete;
+            await _db.Caract.AddAsync(caracteristicasI);
+            _db.SaveChanges ();
+            return caracteristicasI;
         }
 
-        internal async Task<CaracteristicasI> UpdateDispo(CaracteristicasI? newCaracteristicasI)
-        {
-            throw new NotImplementedException();
-        }
+  
     }
 }

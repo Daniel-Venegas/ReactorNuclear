@@ -9,11 +9,11 @@ namespace ReactorNuclear.Repositores
 
     public interface ITipoVRepository
     {
-        Task<List<TipoVariable>> GetAll();
+        Task<List<TipoVariable>> GetAllVariable();
         Task<TipoVariable> GetTipoV(int IdTipoVariable);
         Task<TipoVariable> CreateTipoV(string Variable);
-        Task<TipoVariable> UpdateTipoV(int IdTipoVariable, string Variable);
-        Task<TipoVariable> DeleteTipoV(int IdTipoVariable);
+        Task<TipoVariable> UpdateTipoV(TipoVariable tipoVariable);
+        Task<TipoVariable> DeleteTipoV(TipoVariable tipoVariable);
         //Task<TipoVariable> UpdateTipoV(Dispositivo? newDispositivo);
         //Task<MonitoreoXDispo> UpdateMonitoreo(MonitoreoXDispo? newMonitoreoXDispo);
     }
@@ -26,7 +26,7 @@ namespace ReactorNuclear.Repositores
             _db = db;
         }
 
-        public async Task<List<TipoVariable>> GetAll()
+        public async Task<List<TipoVariable>> GetAllVariable()
         {
             return await _db.TipoV.ToListAsync();
         }
@@ -45,37 +45,24 @@ namespace ReactorNuclear.Repositores
             _db.SaveChanges();
             return newTipoVariable;
         }
-        public async Task<TipoVariable> UpdateTipoV(int IdTipoVariable, string Variable)
+        public async Task<TipoVariable> UpdateTipoV(TipoVariable tipoVariable)
         {
-            /*var tipoVToUpdate = await _db.TipoV.FindAsync(IdTipoVariable);
-            if (tipoVToUpdate != null)
+            TipoVariable ConsultUpdate = await _db.TipoV.FirstOrDefaultAsync(d => d.IdTipoVariable == tipoVariable.IdTipoVariable);
+            if (ConsultUpdate != null)
             {
-
-                tipoVToUpdate.IdTipoVariable = IdTipoVariable;
-                tipoVToUpdate.Variable = Variable;
-
-
+                ConsultUpdate.Variable = tipoVariable.Variable;
                 await _db.SaveChangesAsync();
             }
-
-            return tipoVToUpdate;*/
-            throw new NotImplementedException();
+            return ConsultUpdate;
+       
         }
-        public async Task<TipoVariable> DeleteTipoV(int IdTipoVariable)
+        public async Task<TipoVariable> DeleteTipoV(TipoVariable tipoVariable)
         {
-            var tipoVToDelete = await _db.TipoV.FindAsync(IdTipoVariable);
-
-            if (tipoVToDelete != null)
-            {
-                _db.TipoV.Remove(tipoVToDelete);
-                await _db.SaveChangesAsync();
-            }
-            return tipoVToDelete;
+            await _db.TipoV.AddAsync(tipoVariable);
+            _db.SaveChanges();
+            return tipoVariable;
         }
 
-        internal async Task<TipoVariable> UpdateDispo(TipoVariable? newTipoVariable)
-        {
-            throw new NotImplementedException();
-        }
+   
     }
 }
