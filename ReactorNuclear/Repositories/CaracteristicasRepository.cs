@@ -57,7 +57,7 @@ namespace ReactorNuclear.Repositores
         public async Task<CaracteristicasI> DeleteCaract(CaracteristicasI caracteristicasI)
         {
             await _db.Caract.AddAsync(caracteristicasI);
-            _db.SaveChanges ();
+            await _db.SaveChangesAsync();
             return caracteristicasI;
         }
 

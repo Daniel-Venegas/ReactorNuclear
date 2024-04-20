@@ -60,7 +60,7 @@ namespace ReactorNuclear.Repositores
         public async Task<VariableMonitoreo> DeleteVarMo(VariableMonitoreo variableMonitoreo)
         {
             await _db.VarMo.AddAsync(variableMonitoreo);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return variableMonitoreo;
         }
 

@@ -59,7 +59,7 @@ namespace ReactorNuclear.Repositores
         public async Task<TipoVariable> DeleteTipoV(TipoVariable tipoVariable)
         {
             await _db.TipoV.AddAsync(tipoVariable);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return tipoVariable;
         }
 

@@ -67,7 +67,7 @@ namespace ReactorNuclear.Repositores
         public async Task<DetalleDispositivo> DeleteDetalleD(DetalleDispositivo detalleDispositivo)
         {
             await _db.DetalleD.AddAsync(detalleDispositivo);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return detalleDispositivo;
         }
 

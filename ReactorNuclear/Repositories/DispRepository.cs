@@ -42,7 +42,7 @@ namespace ReactorNuclear.Repositores
             };
 
             await _db.Dispositivo.AddAsync(newDispositivo);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return newDispositivo;
         }
 

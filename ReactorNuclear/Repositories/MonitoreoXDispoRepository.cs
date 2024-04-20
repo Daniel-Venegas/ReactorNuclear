@@ -68,7 +68,7 @@ namespace ReactorNuclear.Repositores
         public async Task<MonitoreoXDispo> DeleteMonitoreo(MonitoreoXDispo monitoreoXDispo)
         {
             await _db.monitoreoXDispos.AddAsync(monitoreoXDispo);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return monitoreoXDispo;
         }
 
