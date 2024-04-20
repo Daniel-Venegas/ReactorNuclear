@@ -8,7 +8,7 @@ namespace ReactorNuclear.Repositores
 
     public interface ICaracteristicasRepository
     {
-        Task<List<CaracteristicasI>> GetAllCaract();
+        Task<List<CaracteristicasI>> GetAllCarcat();
         Task<CaracteristicasI> GetCaract(int IdCaracteristicas);
         Task<CaracteristicasI> CreateCaract(string CaracteristicasRequired);
         Task<CaracteristicasI> UpdateCaract(CaracteristicasI caracteristicasI);
@@ -16,7 +16,7 @@ namespace ReactorNuclear.Repositores
 
         
     }
-    public class CaracteristicasRepository
+    public class CaracteristicasRepository : ICaracteristicasRepository
     {
         private readonly REDbContext _db;
 

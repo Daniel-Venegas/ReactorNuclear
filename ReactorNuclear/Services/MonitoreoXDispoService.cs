@@ -15,8 +15,8 @@ namespace ReactorNuclear.Services
     }
     public class MonitoreoXDispoService : IMonitoreoXDispoService
     {
-        public readonly MonitoreoXDispoRepository _imxRepository;
-        public MonitoreoXDispoService(MonitoreoXDispoRepository imxRepository)
+        public readonly IMonitoreoXDispoRepository _imxRepository;
+        public MonitoreoXDispoService(IMonitoreoXDispoRepository imxRepository)
         {
             _imxRepository = imxRepository;
         }

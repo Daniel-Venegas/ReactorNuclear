@@ -16,7 +16,7 @@ namespace ReactorNuclear.Services
     {
         public readonly IVarMoRepository _varMoRepository;
 
-        public VarMoService(VarMoRepository varMoRepository)
+        public VarMoService(IVarMoRepository varMoRepository)
         {
             _varMoRepository = varMoRepository;
         }

@@ -18,7 +18,7 @@ namespace ReactorNuclear.Controllers
         [HttpGet]
         public async Task<ActionResult<List<MonitoreoXDispo>>> GetAllMonitoreos()
         {
-            return Ok(GetAllMonitoreos());
+            return Ok(await GetAllMonitoreos());
         }
 
         [HttpGet("{IdVariableXDispositivo}")]

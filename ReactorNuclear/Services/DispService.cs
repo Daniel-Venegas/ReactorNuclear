@@ -14,9 +14,9 @@ namespace ReactorNuclear.Services
     }
     public class DispService : IDispService
     {
-        public readonly DispRepository _dispRepository;
+        public readonly IDispRepository _dispRepository;
 
-        public DispService(DispRepository dispRepository)
+        public DispService(IDispRepository dispRepository)
         {
             _dispRepository = dispRepository;
         }
@@ -41,8 +41,10 @@ namespace ReactorNuclear.Services
             Dispositivo newDispositivo = await _dispRepository.GetDispo(idDispositivo);
             if(newDispositivo != null)
             {
-                if(Dispo != null)
+                if (Dispo != null)
+                {
                     newDispositivo.Dispo = Dispo;
+                }
             }
             return await _dispRepository.UpdateDispo(newDispositivo);
         }

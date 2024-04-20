@@ -7,18 +7,18 @@ namespace ReactorNuclear.Services
 
     public interface ICaracteristicasService
     {
-        Task<List<CaracteristicasI>> GetAllcaract();
+        Task<List<CaracteristicasI>> GetAllCarcat();
         Task<CaracteristicasI> GetCaract(int IdCaracteristicas);
         Task<CaracteristicasI> CreateCaract(string CaracteristicasRequired);
         Task<CaracteristicasI> UpdateCaract(int IdCaracteristicas, string? CaracteristicasRequired = null);
         Task<CaracteristicasI> DeleteCaract(int IdCaracteristicas);
 
     }
-    public class CaracteristicasService
+    public class CaracteristicasService : ICaracteristicasService
     {
-        public readonly CaracteristicasRepository _caracteristicasRepository;
+        public readonly ICaracteristicasRepository _caracteristicasRepository;
 
-        public CaracteristicasService(CaracteristicasRepository caracteristicasRepository)
+        public CaracteristicasService(ICaracteristicasRepository caracteristicasRepository)
         {
             _caracteristicasRepository = caracteristicasRepository;
         }
@@ -26,7 +26,8 @@ namespace ReactorNuclear.Services
         {
             return await _caracteristicasRepository.CreateCaract(CaracteristicasRequired);
         }
-        public async Task<List<CaracteristicasI>> GetAllCaract()
+
+        public async Task<List<CaracteristicasI>> GetAllCarcat()
         {
             return await _caracteristicasRepository.GetAllCarcat();
         }
@@ -54,5 +55,7 @@ namespace ReactorNuclear.Services
             CaracteristicasI caracteristicasI = await _caracteristicasRepository.GetCaract(IdCaracteristicas);
             return await _caracteristicasRepository.DeleteCaract(caracteristicasI);
         }
+
+ 
     }
 }

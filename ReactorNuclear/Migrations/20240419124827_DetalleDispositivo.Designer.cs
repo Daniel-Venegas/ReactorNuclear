@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReactorNuclear.Context;
 
@@ -11,9 +12,11 @@ using ReactorNuclear.Context;
 namespace ReactorNuclear.Migrations
 {
     [DbContext(typeof(REDbContext))]
-    partial class REDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240419124827_DetalleDispositivo")]
+    partial class DetalleDispositivo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

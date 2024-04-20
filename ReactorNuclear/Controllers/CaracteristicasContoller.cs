@@ -16,9 +16,9 @@ namespace ReactorNuclear.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CaracteristicasI>>> GetAllCaract()
+        public async Task<ActionResult<List<CaracteristicasI>>> GetAllCarcat()
         {
-            return Ok(await _caracteristicasService.GetAllcaract());
+            return Ok(await _caracteristicasService.GetAllCarcat());
         }
         [HttpGet("{IdCaracteristicas}")]
 

@@ -16,9 +16,9 @@ namespace ReactorNuclear.Services
     }
     public class TipoVService : ITipoVService
     {
-        public readonly TipoVRepository _tipoVRepository;
+        public readonly ITipoVRepository _tipoVRepository;
 
-        public TipoVService(TipoVRepository tipoVRepository)
+        public TipoVService(ITipoVRepository tipoVRepository)
         {
             _tipoVRepository = tipoVRepository;
         }

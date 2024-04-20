@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ReactorNuclear.Context;
+using ReactorNuclear.Repositores;
+using ReactorNuclear.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,27 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Add repositories
+builder.Services.AddScoped<ITipoVRepository, TipoVRepository>();
+builder.Services.AddScoped<ITipoVService, TipoVService>();
+
+builder.Services.AddScoped<IDetalleDRepository , DetalleDRepository>();
+builder.Services.AddScoped<IDetalleDService, DetalleDService>();
+
+builder.Services.AddScoped<IDispRepository, DispRepository>();
+builder.Services.AddScoped<IDispService, DispService>();
+
+builder.Services.AddScoped<IMonitoreoXDispoRepository, MonitoreoXDispoRepository>();
+builder.Services.AddScoped<IMonitoreoXDispoService, MonitoreoXDispoService>();
+
+builder.Services.AddScoped<IVarMoRepository, VarMoRepository>();
+builder.Services.AddScoped<IVarMoService, VarMoService>();
+
+builder.Services.AddScoped<ICaracteristicasRepository, CaracteristicasRepository>();
+builder.Services.AddScoped<ICaracteristicasService, CaracteristicasService>();
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

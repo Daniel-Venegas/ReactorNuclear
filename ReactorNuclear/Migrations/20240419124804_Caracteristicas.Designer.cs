@@ -12,15 +12,15 @@ using ReactorNuclear.Context;
 namespace ReactorNuclear.Migrations
 {
     [DbContext(typeof(REDbContext))]
-    [Migration("20240304031205_CaracteristicasI")]
-    partial class CaracteristicasI
+    [Migration("20240419124804_Caracteristicas")]
+    partial class Caracteristicas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -39,7 +39,7 @@ namespace ReactorNuclear.Migrations
 
                     b.HasKey("IdCaracteristicas");
 
-                    b.ToTable("CaracteristicasI");
+                    b.ToTable("Caract");
                 });
 
             modelBuilder.Entity("ReactorNuclear.Model.DetalleDispositivo", b =>
@@ -54,7 +54,7 @@ namespace ReactorNuclear.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CaracteristicasIIdCaracteristicas")
+                    b.Property<int?>("CaracteristicasIIdCaracteristicas")
                         .HasColumnType("int");
 
                     b.Property<int>("IdCaracteristicas")
@@ -67,7 +67,7 @@ namespace ReactorNuclear.Migrations
 
                     b.HasIndex("CaracteristicasIIdCaracteristicas");
 
-                    b.ToTable("DetalleDispositivo");
+                    b.ToTable("DetalleD");
                 });
 
             modelBuilder.Entity("ReactorNuclear.Model.Dispositivo", b =>
@@ -78,7 +78,7 @@ namespace ReactorNuclear.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdDispositivo"));
 
-                    b.Property<int>("DetalleDispositivoIdDetalleDispositivo")
+                    b.Property<int?>("DetalleDispositivoIdDetalleDispositivo")
                         .HasColumnType("int");
 
                     b.Property<string>("Dispo")
@@ -100,7 +100,7 @@ namespace ReactorNuclear.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdVariableXDispositivo"));
 
-                    b.Property<int>("DispositivoIdDispositivo")
+                    b.Property<int?>("DispositivoIdDispositivo")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Fecha")
@@ -115,7 +115,7 @@ namespace ReactorNuclear.Migrations
                     b.Property<float>("Valor")
                         .HasColumnType("real");
 
-                    b.Property<int>("VariableMonitoreoIdVariableMonitoreo")
+                    b.Property<int?>("VariableMonitoreoIdVariableMonitoreo")
                         .HasColumnType("int");
 
                     b.HasKey("IdVariableXDispositivo");
@@ -141,7 +141,7 @@ namespace ReactorNuclear.Migrations
 
                     b.HasKey("IdTipoVariable");
 
-                    b.ToTable("TipoVariable");
+                    b.ToTable("TipoV");
                 });
 
             modelBuilder.Entity("ReactorNuclear.Model.VariableMonitoreo", b =>
@@ -152,10 +152,10 @@ namespace ReactorNuclear.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdVariableMonitoreo"));
 
-                    b.Property<int>("IdTipoVarible")
+                    b.Property<int>("IdTipoVariable")
                         .HasColumnType("int");
 
-                    b.Property<int>("TipoVariableIdTipoVariable")
+                    b.Property<int?>("TipoVariableIdTipoVariable")
                         .HasColumnType("int");
 
                     b.Property<string>("VarMonitoreo")
@@ -166,16 +166,14 @@ namespace ReactorNuclear.Migrations
 
                     b.HasIndex("TipoVariableIdTipoVariable");
 
-                    b.ToTable("VariableMonitoreo");
+                    b.ToTable("VarMo");
                 });
 
             modelBuilder.Entity("ReactorNuclear.Model.DetalleDispositivo", b =>
                 {
                     b.HasOne("ReactorNuclear.Model.CaracteristicasI", "CaracteristicasI")
                         .WithMany()
-                        .HasForeignKey("CaracteristicasIIdCaracteristicas")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CaracteristicasIIdCaracteristicas");
 
                     b.Navigation("CaracteristicasI");
                 });
@@ -184,9 +182,7 @@ namespace ReactorNuclear.Migrations
                 {
                     b.HasOne("ReactorNuclear.Model.DetalleDispositivo", "DetalleDispositivo")
                         .WithMany()
-                        .HasForeignKey("DetalleDispositivoIdDetalleDispositivo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DetalleDispositivoIdDetalleDispositivo");
 
                     b.Navigation("DetalleDispositivo");
                 });
@@ -195,15 +191,11 @@ namespace ReactorNuclear.Migrations
                 {
                     b.HasOne("ReactorNuclear.Model.Dispositivo", "Dispositivo")
                         .WithMany()
-                        .HasForeignKey("DispositivoIdDispositivo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DispositivoIdDispositivo");
 
                     b.HasOne("ReactorNuclear.Model.VariableMonitoreo", "VariableMonitoreo")
                         .WithMany()
-                        .HasForeignKey("VariableMonitoreoIdVariableMonitoreo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VariableMonitoreoIdVariableMonitoreo");
 
                     b.Navigation("Dispositivo");
 
@@ -214,9 +206,7 @@ namespace ReactorNuclear.Migrations
                 {
                     b.HasOne("ReactorNuclear.Model.TipoVariable", "TipoVariable")
                         .WithMany()
-                        .HasForeignKey("TipoVariableIdTipoVariable")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TipoVariableIdTipoVariable");
 
                     b.Navigation("TipoVariable");
                 });

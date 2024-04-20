@@ -15,9 +15,9 @@ namespace ReactorNuclear.Services
     }
     public class DetalleDService : IDetalleDService
     {
-        public readonly DetalleDRepository _detalleRepository;
+        public readonly IDetalleDRepository _detalleRepository;
 
-        public DetalleDService(DetalleDRepository detalleDRepository)
+        public DetalleDService(IDetalleDRepository detalleDRepository)
         {
             _detalleRepository = detalleDRepository;
         }
